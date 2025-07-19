@@ -31,5 +31,4 @@ function App() {
     </Provider>
   );
 }
-
 export default App;
