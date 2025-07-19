@@ -5,8 +5,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Home from './pages/Home.jsx'
 import AddExpense from './pages/AddExpense.jsx'
 import ExpenseList from './pages/ExpenseList.jsx'
-import { Provider } from 'react-redux'
-import { List } from './List/index.js'
+
 
 const router = createBrowserRouter([
   {
