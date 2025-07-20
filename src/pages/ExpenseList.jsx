@@ -264,7 +264,7 @@ export default function ExpenseList() {
           </table>
         </div>
       ) : isLoading ? (
-        <div className="h-[100vh] w-full rounded-lg bg-[#e3efeb] sm:mt-4">
+        <div className="h-[100vh] w-full rounded-lg bg-[#e3efeb] mt-[26px] sm:mt-4">
           <div className=" md:px-6 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
         </div>
       ) : (
