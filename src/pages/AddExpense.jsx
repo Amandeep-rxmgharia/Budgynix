@@ -141,7 +141,7 @@ export default function AddExpense() {
       </div>
       <div className="backdrop-blur-sm relative mt-20 justify-self-center bg-[#FFFFFD] border border-[#CFE8DE] text-[#2C6D51] rounded-md p-6 shadow-lg  max-w-[280px] sm:max-w-sm md:max-w-md lg:max-w-lg w-full ">
         {onAutopay || editingRow ? (
-          <span className="text-[10px] font-semibold ml-2 border-2 rounded-[4px] p-[2px] sm:p-[3px] absolute top-2 sm:top-4 right-2 sm:right-3">
+          <span className="text-[10px] hidden sm:block font-semibold ml-2 border-2 rounded-[4px] p-[2px] sm:p-[3px] absolute top-2 sm:top-4 right-2 sm:right-3">
             {onAutopay ? "Autopay" : "Editing"}&nbsp;mode
           </span>
         ) : undefined}

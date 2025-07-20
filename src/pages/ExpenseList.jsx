@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, NavLink, useOutletContext } from "react-router-dom";
+import { Link, NavLink, useNavigate, useOutletContext } from "react-router-dom";
 import searchLogo from "../assets/SEARCH LOGO.svg";
 import Select from "react-select";
 import manImg from "../assets/man_img-removebg-preview.png";
@@ -23,7 +23,7 @@ export default function ExpenseList() {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     else return str;
   }
-  const { data: expenses = [],isLoading,isSuccess } = useGetExpensesQuery();
+  const { data: expenses = [], isLoading, isSuccess } = useGetExpensesQuery();
   const [filteredExpense, setQuery] = useFilter(expenses);
   const categoryOptions = [
     { value: "", label: "All" },
@@ -34,9 +34,12 @@ export default function ExpenseList() {
   const [selectedRow, setSelectedRow] = useState(null);
   const [deleteExpense] = useDeleteExpenseMutation();
   const [updateExpense] = useUpdateExpenseMutation();
-  const [, setExpenseFormData, , setEditingRow, onAutopay, setAutopay] =
+  const [, setExpenseFormData, , setEditingRow, , setAutopay] =
     useOutletContext();
   const contextRef = useRef(null);
+  const [editingState, setEditingState] = useState(false);
+  const [deletingState, setDeletingState] = useState(false);
+  const navigate = useNavigate();
   const handleChange = (selectedOption) => {
     setQuery(selectedOption.value);
   };
@@ -45,7 +48,10 @@ export default function ExpenseList() {
   };
   return (
     <section
-      onClick={() => (contextRef.current.style.visibility = "hidden")}
+      onClick={() => {
+        (contextRef.current.style.visibility = "hidden")
+        editingState ? setEditingState(false) : deletingState ? setDeletingState(false) : null;
+      }}
       className="px-[5vw] sm:px-[15vw] text-[#2C6E51] min-h-screen bg-[#F9FCF7] z-0  py-7 relative pt-18"
     >
       <div
@@ -95,12 +101,35 @@ export default function ExpenseList() {
       </div>
       <div className="flex justify-between items-center py-4">
         <h1 className="text-2xl sm:text-3xl font-bold">Expenses</h1>
-        <Link
-          className="py-1 px-3 text-[12px] sm:text-[16px] bg-[#2C6E51]   font-medium rounded-lg text-[#FFFEFC] border-2 hover:text-[#2C6E51] hover:bg-[#FFFEFC] hover:font-semibold"
-          to="/add"
-        >
-          Add&nbsp;Expense
-        </Link>
+        {window.innerWidth > 640 ? (
+          <Link
+            className="py-1 px-3 text-[12px] sm:text-[16px] bg-[#2C6E51]   font-medium rounded-lg text-[#FFFEFC] border-2 hover:text-[#2C6E51] hover:bg-[#FFFEFC] hover:font-semibold"
+            to="/add"
+          >
+            Add&nbsp;Expense
+          </Link>
+        ) : (
+          <div className="text-[14px] text-white bg-[#2C6E51] py-0.5 rounded-sm font-semibold flex gap-2 items-center">
+            <button
+              onClick={() => {
+                setEditingState(true);
+                setDeletingState(false);
+              }}
+              className="border-r px-2"
+            >
+              Edit
+            </button>
+            <button
+              onClick={() => {
+                setDeletingState(true);
+                setEditingState(false);
+              }}
+              className="pr-2"
+            >
+              Delete
+            </button>
+          </div>
+        )}
       </div>
       <div className="absolute  pt-3 sm:pt-2.5 px-4 sm:px-6">
         <img src={searchLogo} className="w-4 sm:w-5" alt="" />
@@ -132,9 +161,11 @@ export default function ExpenseList() {
           options={dateOptions}
         />
       </div>
-      <span className="text-[13px] mb-1 inline-block sm:hidden">Note: Highlighted expenses are on Autopay</span>
+      <span className="text-[13px] mb-1 inline-block sm:hidden">
+        {editingState ? "Editing mode: choose you're expense!" : deletingState ? "Deleting mode: choose you're expense!" : "Note: Highlighted expenses are on Autopay"}
+      </span>
       {expenses.length && isSuccess ? (
-        <div className="border-2 rounded-lg relative h-fit bg-[#FFFEFC] border-[#DBE0E5] text-[#637387] sm:mt-4 ">
+        <div onClick={(e) => e.stopPropagation()} className="border-2 rounded-lg relative h-fit bg-[#FFFEFC] border-[#DBE0E5] text-[#637387] sm:mt-4 ">
           {filteredExpense.length > 2 ? (
             <img
               className="absolute sm:block hidden max-h-60 bottom-0 h-full z-[-1] left-0 -translate-x-20"
@@ -147,12 +178,16 @@ export default function ExpenseList() {
               <tr>
                 {Object.keys(expenses[0]).map((key) => {
                   if (key != "id" && key != "nextDueDate") {
-                    return (
-                     key != 'date' && window.innerWidth < 640 ? <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
-                        {toCapitalize(key)}
-                      </th> : window.innerWidth >=640 && <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
+                    return key != "date" && window.innerWidth < 640 ? (
+                      <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
                         {toCapitalize(key)}
                       </th>
+                    ) : (
+                      window.innerWidth >= 640 && (
+                        <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
+                          {toCapitalize(key)}
+                        </th>
+                      )
                     );
                   }
                 })}
@@ -168,6 +203,26 @@ export default function ExpenseList() {
                 }px`;
                 setSelectedRow(e.target.parentElement.id);
               }}
+              onClick={(e) => {
+                if (editingState) {
+                  const { title, category, amount, id, nextDueDate } =
+                    findExpense(e.target.parentElement.id);
+                  setEditingRow(true);
+                  setExpenseFormData({
+                    title,
+                    category,
+                    amount,
+                    id,
+                    nextDueDate,
+                  });
+                  setAutopay(false);
+                  navigate("/add");
+                }
+                if(deletingState) {
+                  deleteExpense(e.target.parentElement.id);
+                  setDeletingState(false);
+                }
+              }}
               className=""
             >
               {filteredExpense.map(
@@ -176,7 +231,12 @@ export default function ExpenseList() {
                     <tr
                       id={id}
                       key={id}
-                      style={nextDueDate ? {backgroundColor:  "#b9d9ba4b", color: "#2C6D51", borderColor: "#b9d9baab", fontWeight: ""} : {}}
+                      style={
+                        nextDueDate
+                          ? { backgroundColor: "#b9d9ba4b", color: "#2C6D51" }
+                          : editingState || deletingState
+                          ? { backgroundColor: "#98c49f85",color: "#2C6D51" } : {}
+                      }
                       className="border-t-2 relative border-[#DBE0E5]"
                     >
                       <td className="py-3 sm:py-4 sm:block hidden text-center sm:px-3">
@@ -203,9 +263,11 @@ export default function ExpenseList() {
             </tbody>
           </table>
         </div>
-      ) : isLoading ?  <div className="h-[100vh] w-full rounded-lg bg-[#e3efeb] sm:mt-4"><div
-            className=" md:px-6 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-          ></div></div> : (
+      ) : isLoading ? (
+        <div className="h-[100vh] w-full rounded-lg bg-[#e3efeb] sm:mt-4">
+          <div className=" md:px-6 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+        </div>
+      ) : (
         <div className="flex items-center -mt-18 sm:-mt-24 justify-center">
           <h1 className="text-[22px] sm:text-3xl -mr-7 pt-10 font-bold">
             Your expense list is empty
