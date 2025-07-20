@@ -121,7 +121,7 @@ export default function AddExpense() {
   };
   const [showNotification, setNotification] = useState(false);
   return (
-    <section className="mx-auto px-2 py-7 relative bg-[#F9FCF7] h-screen flex justify-center items-center">
+    <section className="mx-auto px-2 py-7 relative bg-[#F9FCF7] h-screen flex justify-center  items-start sm:items-center">
       <div
         style={{
           transform: showNotification ? "translateY(180%)" : "translateY(0px)",
