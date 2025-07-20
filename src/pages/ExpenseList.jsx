@@ -23,7 +23,7 @@ export default function ExpenseList() {
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     else return str;
   }
-  const { data: expenses = [] } = useGetExpensesQuery();
+  const { data: expenses = [],isLoading,isSuccess } = useGetExpensesQuery();
   const [filteredExpense, setQuery] = useFilter(expenses);
   const categoryOptions = [
     { value: "", label: "All" },
@@ -36,10 +36,8 @@ export default function ExpenseList() {
   const [updateExpense] = useUpdateExpenseMutation();
   const [, setExpenseFormData, , setEditingRow, onAutopay, setAutopay] =
     useOutletContext();
-  console.log(setExpenseFormData);
   const contextRef = useRef(null);
   const handleChange = (selectedOption) => {
-    console.log(selectedOption);
     setQuery(selectedOption.value);
   };
   const findExpense = (selectedRow) => {
@@ -76,7 +74,7 @@ export default function ExpenseList() {
         <NavLink
           title={
             selectedRow
-              ? findExpense(selectedRow).nextDueDate
+              ? findExpense(selectedRow)?.nextDueDate
                 ? "Turn off autopay"
                 : "Turn on autopay"
               : ""
@@ -88,7 +86,6 @@ export default function ExpenseList() {
                 ? ""
                 : nextMonth,
             };
-            console.log({ ...selectedExpense });
             updateExpense({ ...selectedExpense });
           }}
           className="sm:leading-8 leading-6 hover:text-[#FFFFFD] hover:bg-[#2C6D50]"
@@ -114,7 +111,6 @@ export default function ExpenseList() {
         placeholder="Search"
         onInput={(e) => {
           setQuery(toCapitalize(e.target.value));
-          console.log(query);
         }}
       />
       <div className="flex gap-3">
@@ -134,7 +130,7 @@ export default function ExpenseList() {
           options={dateOptions}
         />
       </div>
-      {expenses.length ? (
+      {expenses.length && isSuccess ? (
         <div className="border-2 rounded-lg relative h-fit bg-[#FFFEFC] border-[#DBE0E5] text-[#637387] sm:mt-4 ">
           {filteredExpense.length > 2 ? (
             <img
@@ -166,7 +162,6 @@ export default function ExpenseList() {
                   e.clientY + 2 + window.scrollY
                 }px`;
                 setSelectedRow(e.target.parentElement.id);
-                console.log(findExpense(selectedRow));
               }}
               className=""
             >
@@ -202,7 +197,9 @@ export default function ExpenseList() {
             </tbody>
           </table>
         </div>
-      ) : (
+      ) : isLoading ?  <div className="h-[100vh] w-full rounded-lg bg-[#e3efeb] sm:mt-4"><div
+            className=" md:px-6 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          ></div></div> : (
         <div className="flex items-center -mt-18 sm:-mt-24 justify-center">
           <h1 className="text-[22px] sm:text-3xl -mr-7 pt-10 font-bold">
             Your expense list is empty

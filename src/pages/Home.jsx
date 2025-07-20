@@ -20,7 +20,11 @@ import xMark from "../assets/circle-xmark-regular.svg";
 import leafImg from "../assets/Leaf img.png";
 import warningImg from "../assets/exclamation-solid (1).svg";
 export default function Home() {
-  const { data: expenseData = [], isSuccess } = useGetExpensesQuery();
+  const {
+    data: expenseData = [],
+    isSuccess,
+    isLoading,
+  } = useGetExpensesQuery();
   const [update] = useUpdateExpenseMutation();
   useEffect(() => {
     expenseData.forEach((eachExpense) => {
@@ -31,7 +35,6 @@ export default function Home() {
           date: Today,
           nextDueDate: nextMonth,
         };
-        console.log(a);
         update(a);
       }
     });
@@ -64,7 +67,6 @@ export default function Home() {
       Shopping: null,
     }
   );
-  console.log(categoryBudget);
   const [isPopupOpen, setPopupOpen] = useLocalStorage("isPopupOpen", false);
   const [isSliding, setSliding] = useLocalStorage("isSliding", false);
   const [selectedLabel, setSelectedLabel] = useState(null);
@@ -151,7 +153,6 @@ export default function Home() {
                 className="text-[#2C6D51] flex-1 mt-3 max-w-[150px] sm:max-w-2xs shadow-none"
                 styles={useSelectCustomStyle()}
                 onChange={(selected) => {
-                  console.log(selected);
                   if (budgetInput) {
                     budgetInput.current.focus();
                   }
@@ -225,7 +226,9 @@ export default function Home() {
         </p>
       </div>
       <div className="py-5 sm:py-8 font-bold text-[22px] sm:leading-4">
-        {expenseData.length ? "Spending By Category" : "No spending recorded!"}
+        {expenseData.length || isLoading
+          ? "Spending By Category"
+          : "No spending recorded!"}
       </div>
       {isSuccess && expenseData.length ? (
         <div className="px-4 md:px-6 min-h-[288px] sm:min-h-[210px] pb-3 sm:pb-0 pt-3 sm:pt-4 rounded-lg flex flex-col justify-start font-semibold backdrop-blur-sm border-2 shadow-lg bg-[#FFFFFC]  border-[#CFE8DE]">
@@ -259,6 +262,13 @@ export default function Home() {
               );
             }
           )}
+        </div>
+      ) : isLoading ? (
+        <div className="bg-[#B9D9BA] min-h-[288px] sm:min-h-[210px] w-full relative rounded-lg">
+          <div
+            style={{ animation: "shimmer 1.5s infinite" }}
+            className=" md:px-6 absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+          ></div>
         </div>
       ) : (
         <img

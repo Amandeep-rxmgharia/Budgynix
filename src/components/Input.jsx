@@ -38,7 +38,6 @@ export default function Input({
               setError("");
             }
           } else if (!selectedLabel && categoryBudget) {
-            console.log("hii");
             setError("Select category first!");
           } else {
             setValue({ ...value, title: e.target.value });

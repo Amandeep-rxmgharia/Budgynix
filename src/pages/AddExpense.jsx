@@ -23,7 +23,6 @@ export default function AddExpense() {
   const [addExpense] = useAddExpenseMutation();
   const [updateExpense] = useUpdateExpenseMutation();
   const { data: expenseData = [], isSuccess } = useGetExpensesQuery();
-  console.log(expenseData);
   const navigate = useNavigate();
   const [
     expenseFormData,
@@ -33,8 +32,6 @@ export default function AddExpense() {
     onAutopay,
     setAutopay,
   ] = useOutletContext();
-  console.log("editingRow", editingRow);
-  console.log("setEditingRow", setEditingRow);
   const formValidation = {
     title: [
       { required: true, message: "Please fill out this field!" },
@@ -70,7 +67,6 @@ export default function AddExpense() {
     }
     let totalCategorySpentAmount = 0;
     expenseData.forEach(({ category, amount }) => {
-      console.log(amount);
       if (FormCategory == category) {
         totalCategorySpentAmount = totalCategorySpentAmount + amount;
       }
@@ -87,11 +83,6 @@ export default function AddExpense() {
       return notHavingBudget;
     }
   }
-  console.log(
-    budgetSucceeded([expenseFormData.category, expenseFormData.amount])
-  );
-  console.log(nextMonth);
-  console.log(expenseFormData);
   const submitHandler = () => {
     if (Object.keys(validate(expenseFormData)).length) {
       setErrorData(validate(expenseFormData));
