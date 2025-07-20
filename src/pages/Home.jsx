@@ -227,9 +227,9 @@ export default function Home() {
         </p>
       </div>
       <div className="py-5 sm:py-8 font-bold text-[20px] sm:leading-4">
-        {expenseData.length || isLoading
-          ? "Spending By Category"
-          : "No spending recorded!"}
+        {isLoading
+          ? "Loading..."
+          : expenseData.length ? "Spending By Category" : "No spending recorded!"}
       </div>
       {isSuccess && expenseData.length ? (
         <div className="px-4 md:px-6 min-h-[288px] sm:min-h-[210px] pb-3 sm:pb-0 pt-3 sm:pt-4 rounded-lg flex flex-col justify-start font-semibold backdrop-blur-sm border-2 shadow-lg bg-[#FFFFFC]  border-[#CFE8DE]">

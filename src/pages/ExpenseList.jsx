@@ -161,9 +161,9 @@ export default function ExpenseList() {
           options={dateOptions}
         />
       </div>
-      <span className="text-[13px] mb-1 inline-block sm:hidden">
+      {isLoading ? undefined :<span className="text-[13px] mb-1 inline-block sm:hidden">
         {editingState ? "Editing mode: choose you're expense!" : deletingState ? "Deleting mode: choose you're expense!" : "Note: Highlighted expenses are on Autopay"}
-      </span>
+      </span>}
       {expenses.length && isSuccess ? (
         <div onClick={(e) => e.stopPropagation()} className="border-2 rounded-lg relative h-fit bg-[#FFFEFC] border-[#DBE0E5] text-[#637387] sm:mt-4 ">
           {filteredExpense.length > 2 ? (
