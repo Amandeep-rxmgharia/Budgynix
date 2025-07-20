@@ -3,6 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const expenseApi = createApi({
   reducerPath: "expenseApi",
   baseQuery: fetchBaseQuery({ baseUrl: "https://budgynix-api.onrender.com" }),
+  tagTypes: ["Expense"],
   endpoints: (builder) => ({
     getExpenses: builder.query({
       query: () => "/expenses",
@@ -14,7 +15,8 @@ export const expenseApi = createApi({
           return !eachExpense.nextDueDate
         }).reverse()
         return [...autopayExpenses,...normalExpenses]
-      }
+      },
+      providesTags: ["expenses"]
     }),
     addExpense: builder.mutation({
       query: (newExpense) => ({
@@ -28,6 +30,7 @@ export const expenseApi = createApi({
           url: `/expenses/${id}`,
           method: "DELETE"
         }),
+        providesTags: ["expenses"]
       }),
        updateExpense: builder.mutation({
         query: ({ id, ...data }) => ({
@@ -35,6 +38,7 @@ export const expenseApi = createApi({
           method: "PATCH",
           body: data,
         }),
+        providesTags: ["expenses"]
       }),
   }),
 });
