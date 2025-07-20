@@ -226,7 +226,7 @@ export default function Home() {
           <CountUp end={totalSpent} duration={0.7} />
         </p>
       </div>
-      <div className="py-5 sm:py-8 font-bold text-[22px] sm:leading-4">
+      <div className="py-5 sm:py-8 font-bold text-[20px] sm:leading-4">
         {expenseData.length || isLoading
           ? "Spending By Category"
           : "No spending recorded!"}
@@ -255,9 +255,10 @@ export default function Home() {
                   >
                     {categoryName}
                   </span>
+                  {categoryProgress ? <span className="absolute -mt-0.5 ml-1 block sm:hidden">$<CountUp end={categoryProgress} duration={0.5}/></span> : undefined}
                   <div
                     style={progressAnimation(categoryProgress, progressColor)}
-                    className="h-5 ml-1 sm:ml-0 sm:h-6 mb-1 sm:mb-2 block sm:inline-block rounded-r-[3px]"
+                    className="h-5 ml-11 sm:ml-0 sm:h-6  mb-1 sm:mb-2 inline-block sm:inline-block rounded-r-[3px]"
                   ></div>
                 </div>
               );

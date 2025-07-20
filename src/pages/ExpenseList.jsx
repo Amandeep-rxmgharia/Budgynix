@@ -132,6 +132,7 @@ export default function ExpenseList() {
           options={dateOptions}
         />
       </div>
+      <span className="text-[13px] mb-1 inline-block">Note: Highlighted expenses are on Autopay</span>
       {expenses.length && isSuccess ? (
         <div className="border-2 rounded-lg relative h-fit bg-[#FFFEFC] border-[#DBE0E5] text-[#637387] sm:mt-4 ">
           {filteredExpense.length > 2 ? (
@@ -141,13 +142,15 @@ export default function ExpenseList() {
               alt=""
             />
           ) : undefined}
-          <table border="1" className="w-full text-[12px] sm:text-[16px]">
+          <table border="1" className="w-full text-[14px] sm:text-[16px]">
             <thead>
               <tr>
                 {Object.keys(expenses[0]).map((key) => {
                   if (key != "id" && key != "nextDueDate") {
                     return (
-                      <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
+                     key != 'date' && window.innerWidth < 640 ? <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
+                        {toCapitalize(key)}
+                      </th> : window.innerWidth >=640 && <th className="sm:px-4 px-2 py-3 sm:w-1/4  text-center text-[#2C6E51]">
                         {toCapitalize(key)}
                       </th>
                     );
@@ -173,9 +176,10 @@ export default function ExpenseList() {
                     <tr
                       id={id}
                       key={id}
+                      style={nextDueDate ? {backgroundColor:  "#b9d9ba4b", color: "#2C6D51", borderColor: "#b9d9baab", fontWeight: ""} : {}}
                       className="border-t-2 relative border-[#DBE0E5]"
                     >
-                      <td className="py-3 sm:py-4 text-center sm:px-3">
+                      <td className="py-3 sm:py-4 sm:block hidden text-center sm:px-3">
                         {date}
                       </td>
                       <td className="py-3 sm:py-4 text-center sm:px-3">
