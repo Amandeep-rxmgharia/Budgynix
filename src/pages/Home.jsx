@@ -152,6 +152,7 @@ export default function Home() {
               <Select
                 className="text-[#2C6D51] flex-1 mt-3 max-w-[150px] sm:max-w-2xs shadow-none"
                 styles={useSelectCustomStyle()}
+                isSearchable={false}
                 onChange={(selected) => {
                   if (budgetInput) {
                     budgetInput.current.focus();
@@ -266,7 +267,6 @@ export default function Home() {
       ) : isLoading ? (
         <div className="bg-[#B9D9BA] min-h-[288px] sm:min-h-[210px] w-full relative rounded-lg">
           <div
-            style={{ animation: "shimmer 1.5s infinite" }}
             className=" md:px-6 absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
           ></div>
         </div>

@@ -118,6 +118,7 @@ export default function ExpenseList() {
         <Select
           className="max-w-[150px] flex-1 my-4"
           styles={customStyles}
+          isSearchable={false}
           defaultValue={{ label: "Category" }}
           options={categoryOptions}
           onChange={handleChange}
@@ -125,6 +126,7 @@ export default function ExpenseList() {
         <Select
           className="max-w-[150px] flex-1 my-4"
           styles={customStyles}
+          isSearchable={false}
           onChange={handleChange}
           defaultValue={{ label: "Date" }}
           options={dateOptions}

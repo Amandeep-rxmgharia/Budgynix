@@ -170,6 +170,7 @@ export default function AddExpense() {
               <Select
                 className="text-[#2C6D51] flex-1 mt-3 shadow-none"
                 styles={customStyles}
+                isSearchable={false}
                 onChange={(selected) => {
                   setExpenseFormData({
                     ...expenseFormData,
