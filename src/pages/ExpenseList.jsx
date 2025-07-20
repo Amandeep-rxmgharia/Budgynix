@@ -132,7 +132,7 @@ export default function ExpenseList() {
           options={dateOptions}
         />
       </div>
-      <span className="text-[13px] mb-1 inline-block">Note: Highlighted expenses are on Autopay</span>
+      <span className="text-[13px] mb-1 inline-block sm:hidden">Note: Highlighted expenses are on Autopay</span>
       {expenses.length && isSuccess ? (
         <div className="border-2 rounded-lg relative h-fit bg-[#FFFEFC] border-[#DBE0E5] text-[#637387] sm:mt-4 ">
           {filteredExpense.length > 2 ? (
