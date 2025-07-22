@@ -278,7 +278,7 @@ export default function Home() {
           alt=""
         />
       )}
-      <div className="flex flex-col lg:flex-row gap-5">
+      <div className="flex flex-col lg:flex-row gap-8">
         <div className="p-4 md:px-6 flex-1 flex flex-col min-w-[200px] justify-around bg-[#FFFFFC] border-2 max-w-2xl border-[#CFE8DE] shadow-md  mt-8 rounded-lg">
           <div>
             {" "}
@@ -315,7 +315,7 @@ export default function Home() {
             Set&nbsp;Budget
           </button>
         </div>
-        <div className="p-2 sm:p-6 bg-[#FFFFFC]  relative flex-1 border-2 flex sm:items-stretch max-w-2xl   border-[#CFE8DE] shadow-md  mt-8 rounded-lg">
+        <div className="p-2 sm:p-6 bg-[#FFFFFC]  relative flex-1 border-2 flex sm:items-stretch max-w-2xl   border-[#CFE8DE] shadow-md  rounded-lg">
           <img
             className="absolute hidden sm:block w-10 bottom-0 -right-10"
             src={leafImg}
