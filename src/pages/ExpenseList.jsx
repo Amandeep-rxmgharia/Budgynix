@@ -195,13 +195,15 @@ export default function ExpenseList() {
             </thead>
             <tbody
               onContextMenu={(e) => {
-                e.preventDefault();
+                if(window.innerWidth > 640) {
+                  e.preventDefault();
                 contextRef.current.style.visibility = "visible";
                 contextRef.current.style.left = `${e.clientX + 2}px`;
                 contextRef.current.style.top = `${
                   e.clientY + 2 + window.scrollY
                 }px`;
                 setSelectedRow(e.target.parentElement.id);
+                }
               }}
               onClick={(e) => {
                 if (editingState) {
