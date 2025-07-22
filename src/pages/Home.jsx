@@ -137,7 +137,7 @@ export default function Home() {
       className="flex flex-col text-[#064d2d] min-h-screen px-[5vw] sm:px-[15vw] bg-[#FCFDF9] py-10 sm:py-7"
     >
       {isPopupOpen ? (
-        <div className="w-full h-full p-6 pt-24 sm:pt-0 fixed flex justify-center items-start sm:items-center top-0 left-0 z-4 bg-[#00000080]">
+        <div className="w-full h-full p-6 pt-54 sm:pt-0 fixed flex justify-center items-start sm:items-center top-0 left-0 z-4 bg-[#00000080]">
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
