@@ -315,7 +315,7 @@ export default function Home() {
             Set&nbsp;Budget
           </button>
         </div>
-        <div className="p-2 sm:p-6 bg-[#FFFFFC]  relative flex-1 border-2 flex sm:items-stretch max-w-2xl   border-[#CFE8DE] shadow-md  rounded-lg">
+        <div className="p-2 sm:px-6 sm:py-3 lg:mt-8 bg-[#FFFFFC]  relative flex-1 border-2 flex sm:items-stretch max-w-2xl   border-[#CFE8DE] shadow-md  rounded-lg">
           <img
             className="absolute hidden sm:block w-10 bottom-0 -right-10"
             src={leafImg}
